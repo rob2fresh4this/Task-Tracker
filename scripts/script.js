@@ -22,11 +22,11 @@ if (task_btn_submit && task_name && task_date && task_status && task_priority) {
             return;
         }
         const task = {
-            TaskName: task_name.value,
-            TaskDescription: task_description.value,
-            TaskDate: task_date.value,
-            Status: task_status.value,
-            Priority: task_priority.value
+            TaskName: task_name.value.trim(),
+            TaskDescription: task_description.value.trim(),
+            TaskDate: task_date.value.trim(),
+            Status: task_status.value.trim(),
+            Priority: task_priority.value.trim()
         };
         saveToLocalStorage(task);
         getFromLocalStorage();
@@ -61,12 +61,16 @@ function displayTasksLayout(task) {
     </li>`
 }
 
-function displayTasks() {
-    let tasks = getFromLocalStorage();
-    if (tasks.length === 0) { console.log('No tasks found'); return; }
+function clearTasks() {
     todoTaskList.innerHTML = '';
     inProgressTaskList.innerHTML = '';
     completeTaskList.innerHTML = '';
+}
+
+function displayTasks() {
+    let tasks = getFromLocalStorage();
+    if (tasks.length === 0) { console.log('No tasks found'); return clearTasks(); }
+    clearTasks();
     const divider = document.createElement("div");
     divider.style.width = "100%"; divider.style.height = "2px"; divider.style.backgroundColor = "#ccc"; divider.style.margin = "10px 0";
     tasks.forEach(task => {
@@ -87,13 +91,13 @@ function displayTasks() {
             case 'in-progress': {
                 const taskElement = document.createElement("div");
                 taskElement.innerHTML = displayTasksLayout(task);
-                
+
                 const space = document.createElement("div");
                 space.style.width = "100%";
                 space.style.height = "2px";
                 space.style.backgroundColor = "#ccc";
                 space.style.margin = "10px 0";
-        
+
                 inProgressTaskList.appendChild(taskElement);
                 inProgressTaskList.appendChild(space);
                 break;
@@ -101,13 +105,13 @@ function displayTasks() {
             case 'complete': {
                 const taskElement = document.createElement("div");
                 taskElement.innerHTML = displayTasksLayout(task);
-                
+
                 const space = document.createElement("div");
                 space.style.width = "100%";
                 space.style.height = "2px";
                 space.style.backgroundColor = "#ccc";
                 space.style.margin = "10px 0";
-        
+
                 completeTaskList.appendChild(taskElement);
                 completeTaskList.appendChild(space);
                 break;
@@ -143,10 +147,10 @@ function displayTasks() {
     });
 }
 
-const body = document.querySelector('body');
-body.addEventListener('click', () => {
-    displayTasks();
-});
+// const body = document.querySelector('body');
+// body.addEventListener('click', () => {
+//     displayTasks();
+// });
 
 displayTasks();
 getFromLocalStorage();
