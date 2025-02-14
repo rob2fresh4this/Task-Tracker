@@ -143,6 +143,11 @@ function displayTasks() {
     });
 }
 
+const body = document.querySelector('body');
+body.addEventListener('click', () => {
+    displayTasks();
+});
+
 displayTasks();
 getFromLocalStorage();
 
